@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>welcome</h1>
+
+
+    <table id="dataTable" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Department Name</th>
+                <th>Supervisor Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <label> name</label>
+    <input type="text" id="name" /> <br />
+
+
+    <label> age</label>
+    <input type="text" id="age" /><br />
+
+    <label> address</label>
+    <input type="text" id="address" /><br />
+    <button onclick="addData()"> add</button>
+
+
+
+    <script>
+        function diplayData(data) {
+            $('#dataTable tbody').empty();
+
+            $.each(data, function (index, item) {
+                var row = $('<tr>');
+                row.append($('<td>').text(item.id));
+                row.append($('<td>').text(item.fullName));
+                row.append($('<td>').text(item.age));
+                row.append($('<td>').text(item.address));
+                row.append($('<td>').text(item.departmentName));
+                row.append($('<td>').text(item.supervisorName));
+                $('#dataTable tbody').append(row);
+            });
+        }
+       
+        function addData() {
+            var obj = {
+                id:66,
+                fullName: $("#name").val(),
+                age: $("#age").val(),
+                address: $("#address").val()
+
+
+            };
+         
+                $.ajax({
+                    url: 'https://localhost:7003/api/Students',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(obj),
+
+                    success: function (data) {
+                        alert(JSON.stringify(data));
+                    },
+
+                    error: function (error) {
+                        alert("Error: " + error.responseText);
+                    }
+                })
+           
+
+        }
+
+        // get all student
+        $(function () {
+            $.ajax({
+                url: 'https://localhost:7003/api/Students',
+                method: 'GET',
+                success: function (data) {
+                    diplayData(data);
+                },
+            
+                  
+                error: function (error) {
+                    alert("Error: " + error.responseText);
+                }
+            });
+        });
+
+        // add student
+
+
+      
+
+    </script>
+
+
+</body>
+</html>
